@@ -3,9 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <title>Study Angular - Base1</title>
-
+    <script type="text/javascript" src="../node_modules/angular/angular.js"></script>
 </head>
-<body>
+<body ng-app="myApp">
+<div ng-controller="personController">
+    <p>在输入框输入姓名！</p>
 
+    <p>姓名：<input type="text" ng-model="name"/></p>
+
+    <div ng-bind="name"></div>
+    <ul ng-repeat="x in names | filter:name | orderBy:'-age'">
+        <li>{{x.name}} : {{x.ename | uppercase}}</li>
+    </ul>
+</div>
+<script type="text/javascript" src="../js/myApp.js"></script>
+<script type="text/javascript" src="../js/myCtro.js"></script>
 </body>
 </html>
