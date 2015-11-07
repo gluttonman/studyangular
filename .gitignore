@@ -1,0 +1,11 @@
+.idea
+*.rar
+*.zip
+*.tar.gz
+*.exe
+fangdd.js
+node_modules
+tasks
+dev_temp
+release
+logs
