@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <script type="text/javascript" src="../node_modules/angular/angular.js"></script>
+</head>
+<body ng-app="myApp">
+<!-- angular作用域-->
+<div ng-controller="controllerFirst">
+    <p>姓名1：{{name}}</p>
+    <p>年龄1：{{age}}</p>
+</div>
+<div ng-controller="controllerSecond">
+    <p>姓名2：{{name}}</p>
+    <p>年龄2：{{age}}</p>
+</div>
+<!-- controller继承 -->
+<div ng-controller="controllerExtend1">
+    <p>Extend1>>姓名：{{name}} 年龄：{{age}} 性别：{{sex}}</p>
+    <div ng-controller="controllerExtend2">
+        <p>Extend2>>姓名：{{name}} 年龄：{{age}} 性别:{{sex}}</p>
+    </div>
+</div>
+<!-- 代码压缩之后变量名称变了，$scope -->
+<div ng-controller="controllerMini">
+    <p>姓名：{{name}} 电话：{{tel}}</p>
+</div>
+
+<!-- 全局作用域 -->
+<div>
+    <p>全局姓名：{{name}}</p>
+</div>
+<script type="text/javascript" src="../js/myApp.js"></script>
+<script type="text/javascript">
+    <!-- scope作用域和全局rootScope-->
+    app.controller("controllerFirst", function ($scope,$rootScope) {
+        console.info(arguments);
+        $scope.name="张三";
+        $rootScope.age = "16"
+    });
+    app.controller("controllerSecond", function ($scope) {
+        $scope.name="李四"
+    });
+    <!--controller 继承-->
+    app.controller("controllerExtend1", function ($scope) {
+        $scope.name = "father";
+        $scope.sex = "男";
+    });
+    app.controller("controllerExtend2", function ($scope) {
+        $scope.name="son";
+        $scope.age =10;
+    });
+
+    <!--代码压缩问题-->
+    app.controller("controllerMini", ["$scope", function (a) {
+        a.name = "Minify";
+        a.tel = "13644302271";
+    }]);
+
+    <!-- run方法初始化全局作用域 -->
+    app.run(["$rootScope", function (rootScope) {
+        rootScope.name = "RootScope"
+
+    }])
+</script>
+</body>
+</html>

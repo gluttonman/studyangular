@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Apply And Watch</title>
+    <script type="text/javascript" src="../node_modules/angular/angular.js"></script>
+</head>
+<body ng-app="myApp">
+    <div ng-controller="controllerApply">
+        <p>姓名：<div ng-bind="name"></div></p>
+        <p>年龄：<div ng-bind="age"></div></p>
+    </div>
+    <div ng-controller="controllerWatch">
+        <h1>Angular Watch</h1>
+        <p>单价：<input type="text" ng-model="iphone.price"/></p>
+        <p>数量：<input type="text" ng-model="iphone.num"/></p>
+        价格：{{sum()| currency:"¥"}}<br/>
+        邮费：{{iphone.fre| currency:"¥"}}<br/>
+        总计：{{sum()+iphone.fre| currency:"¥"}}
+    </div>
+    <script type="text/javascript" src="../js/myApp.js"></script>
+    <script type="text/javascript">
+        app.controller("controllerApply", ["$scope","$rootScope","$timeout", function (a,b,timeout) {
+            console.info(timeout);
+            a.name = "Apply";
+            a.age = "1";
+            setTimeout(function () {
+                a.$apply(function () {
+                    a.name = "TimeOut Apply"
+                });
+            },2000)
+
+           var promise = timeout(function () {
+                a.age = 13;
+            },2000);
+            //取消执行timeout方法
+           // console.info(timeout.cancel(promise));
+        }]);
+        app.controller("controllerWatch",["$scope", function (scope) {
+            scope.iphone = {
+                price : 5,
+                num :1,
+                fre :10
+            }
+            scope.sum = function () {
+                return scope.iphone.price*scope.iphone.num;
+            }
+            scope.$watch(scope.sum, function (newValue, oldValue) {
+                scope.iphone.fre = newValue>=100?0:10;
+            });
+        }]);
+        <!-- watch-->
+
+    </script>
+</body>
+</html>

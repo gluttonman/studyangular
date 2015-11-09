@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Angular Util</title>
+    <script type="text/javascript" src="../node_modules/angular/angular.js"></script>
+</head>
+<body ng-app="myApp">
+    <div id="controller" ng-controller="controllerArray">
+        <p>isArray : {{isArray}}</p>
+        <p>isDefined : {{isDefined}}</p>
+        <p>isUndefined : {{isUndefined}}</p>
+        <p>isElement : {{isElement}}</p>
+        <p>isFunction : {{isFunction}}</p>
+        <p>isObject : {{isObject}}</p>
+        <p>isString : {{isString}}</p>
+        <p>equals : {{equals}}</p>
+        <p>extend : {{extend}}</p>
+        <p>json : {{json}}</p>
+    </div>
+<script type="text/javascript" src="../js/myApp.js"></script>
+<script type="text/javascript">
+    app.controller("controllerArray",["$scope", function (scope) {
+        var persons = ["张三","李四","王五"];
+        scope.isArray = angular.isArray(document.getElementsByTagName("p"));
+       // scope.isArray = angular.isArray(persons);
+        scope.isString = angular.isString(persons[0]);
+        scope.isDefined = angular.isDefined(persons[0]);
+        scope.isUndefined = angular.isUndefined(persons[0]);
+        scope.isFunction = angular.isFunction(app.controller);
+        scope.isObject = angular.isObject(persons);
+        scope.isElement = angular.isElement(document.getElementById("controller"));
+        //console.info(1==="1");
+        scope.equals = angular.equals(1,1);//等价于 ===
+        var a = {name : "张三"}
+        var b = {age : 16}
+        var strJson = '{"sex":"男"}';
+        scope.extend = angular.extend({},a,b);
+        scope.json = angular.toJson(a,true);
+        console.info(scope.json);
+        console.info(angular.fromJson(strJson));
+        console.info(angular.copy(a,{}));
+
+        <!--foreach-->
+        var array = [];
+        angular.forEach(a, function (val, key) {
+            console.info(val +"--"+key);
+            this.push(key);
+        },array);
+        console.info(array);
+        <!-- bind -->
+        var self = {name:"王五",sex:"男"}
+        var fn = angular.bind(self, function (age) {
+            var a = angular.isUndefined(this.age)?age:this.age
+            console.info(this.name+":"+a+":"+this.sex);
+        },10);
+        fn();
+    }]);
+</script>
+</body>
+</html>
